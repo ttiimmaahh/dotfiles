@@ -9,6 +9,7 @@ Public, portable configuration files.
 - Optional per-project Ghostty themes for Zsh
 - [Neovim](https://neovim.io/) configuration managed with lazy.nvim
 - [Herdr](https://herdr.dev/) UI and theme configuration
+- Portable Zsh configuration and a compact Powerlevel10k prompt
 
 ## Install
 
@@ -23,6 +24,20 @@ To preview changes without modifying your system:
 ```sh
 ./apply --dry-run
 ```
+
+### Zsh
+
+The shell configuration works without optional tools. For the complete experience on macOS:
+
+```sh
+brew install powerlevel10k zsh-autosuggestions zsh-syntax-highlighting eza
+```
+
+Powerlevel10k is the only prompt dependency. Its compact configuration preserves the rainbow-style directory, Git status, execution-time, runtime-version, and clock segments. A Nerd Font is required for prompt icons; the Ghostty configuration already selects `MesloLGS Nerd Font Mono`.
+
+Put credentials, employer-specific aliases, and machine-only paths in `~/.zshrc.local`. The public `.zshrc` loads that file when present, while Git ignores it.
+
+### Neovim
 
 The first Neovim launch bootstraps [lazy.nvim](https://github.com/folke/lazy.nvim), which then installs the plugins pinned in `nvim/lazy-lock.json`. External formatters, linters, and language servers are installed through Mason where configured.
 

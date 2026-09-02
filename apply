@@ -70,6 +70,10 @@ install_link() {
 install_link "$repo_dir/ghostty" "$HOME/.config/ghostty"
 install_link "$repo_dir/nvim" "$HOME/.config/nvim"
 install_link "$repo_dir/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+install_link "$repo_dir/zsh/.zshrc" "$HOME/.zshrc"
+install_link "$repo_dir/zsh/.zprofile" "$HOME/.zprofile"
+install_link "$repo_dir/zsh/.zshenv" "$HOME/.zshenv"
+install_link "$repo_dir/zsh/p10k.zsh" "$HOME/.config/zsh/p10k.zsh"
 
 if [ "$backup_created" = true ]; then
   log "Backup directory: $backup_dir"

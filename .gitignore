@@ -2,6 +2,7 @@
 *.local
 *.private
 *.secret
+.zshrc.local
 .env
 .env.*
 !.env.example
