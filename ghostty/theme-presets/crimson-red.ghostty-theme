@@ -1,0 +1,21 @@
+# Crimson Red — production/danger feel, good for infra projects
+background = #1c1015
+foreground = #d4b8b8
+cursor-color = #e06c75
+
+palette = 0=#1c1015
+palette = 1=#e06c75
+palette = 2=#98c379
+palette = 3=#d19a66
+palette = 4=#61afef
+palette = 5=#c678dd
+palette = 6=#56b6c2
+palette = 7=#d4b8b8
+palette = 8=#3a2530
+palette = 9=#e06c75
+palette = 10=#98c379
+palette = 11=#d19a66
+palette = 12=#61afef
+palette = 13=#c678dd
+palette = 14=#56b6c2
+palette = 15=#e0d0d0

@@ -1,0 +1,21 @@
+# Forest Green — earthy green tint
+background = #1a2419
+foreground = #c8d6b8
+cursor-color = #a3be8c
+
+palette = 0=#1a2419
+palette = 1=#cc6666
+palette = 2=#a3be8c
+palette = 3=#d8a657
+palette = 4=#7daea3
+palette = 5=#d3869b
+palette = 6=#89b482
+palette = 7=#c8d6b8
+palette = 8=#2e3d2b
+palette = 9=#cc6666
+palette = 10=#a3be8c
+palette = 11=#d8a657
+palette = 12=#7daea3
+palette = 13=#d3869b
+palette = 14=#89b482
+palette = 15=#d4e0c8

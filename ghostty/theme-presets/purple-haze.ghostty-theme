@@ -1,0 +1,21 @@
+# Purple Haze — violet-tinted for creative/experimental projects
+background = #1a1428
+foreground = #d4c8e8
+cursor-color = #bb9af7
+
+palette = 0=#1a1428
+palette = 1=#f7768e
+palette = 2=#9ece6a
+palette = 3=#e0af68
+palette = 4=#7aa2f7
+palette = 5=#bb9af7
+palette = 6=#7dcfff
+palette = 7=#d4c8e8
+palette = 8=#2e2545
+palette = 9=#f7768e
+palette = 10=#9ece6a
+palette = 11=#e0af68
+palette = 12=#7aa2f7
+palette = 13=#bb9af7
+palette = 14=#7dcfff
+palette = 15=#e8ddf5

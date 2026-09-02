@@ -1,0 +1,21 @@
+# Ocean Blue — cool, calm blue tint
+background = #0d1b2a
+foreground = #b8d4e3
+cursor-color = #5e81ac
+
+palette = 0=#0d1b2a
+palette = 1=#bf616a
+palette = 2=#a3be8c
+palette = 3=#ebcb8b
+palette = 4=#5e81ac
+palette = 5=#b48ead
+palette = 6=#88c0d0
+palette = 7=#b8d4e3
+palette = 8=#1b2b3a
+palette = 9=#bf616a
+palette = 10=#a3be8c
+palette = 11=#ebcb8b
+palette = 12=#5e81ac
+palette = 13=#b48ead
+palette = 14=#88c0d0
+palette = 15=#d8dee9

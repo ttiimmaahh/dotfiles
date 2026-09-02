@@ -1,0 +1,74 @@
+#!/bin/sh
+
+set -eu
+
+usage() {
+  cat <<'EOF'
+Usage: ./apply [--dry-run]
+
+Install this repository's dotfiles as symlinks. Existing destinations are
+moved to ~/.dotfiles-backup/<timestamp-pid>/ before installation.
+EOF
+}
+
+dry_run=false
+case "${1:-}" in
+  "") ;;
+  --dry-run) dry_run=true ;;
+  -h|--help) usage; exit 0 ;;
+  *) usage >&2; exit 2 ;;
+esac
+
+if [ "$#" -gt 1 ]; then
+  usage >&2
+  exit 2
+fi
+
+repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+backup_dir="${HOME}/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)-$$"
+backup_created=false
+
+log() {
+  printf '%s\n' "$*"
+}
+
+run() {
+  if [ "$dry_run" = true ]; then
+    printf '[dry-run]'
+    printf ' %s' "$@"
+    printf '\n'
+  else
+    "$@"
+  fi
+}
+
+install_link() {
+  source_path=$1
+  destination=$2
+
+  if [ -L "$destination" ] && [ "$(readlink "$destination")" = "$source_path" ]; then
+    log "Already linked: $destination"
+    return
+  fi
+
+  if [ -e "$destination" ] || [ -L "$destination" ]; then
+    if [ "$backup_created" = false ]; then
+      run mkdir -p "$backup_dir"
+      backup_created=true
+    fi
+    backup_path="${backup_dir}${destination#"$HOME"}"
+    run mkdir -p "$(dirname -- "$backup_path")"
+    log "Backing up: $destination -> $backup_path"
+    run mv "$destination" "$backup_path"
+  fi
+
+  run mkdir -p "$(dirname -- "$destination")"
+  log "Linking: $destination -> $source_path"
+  run ln -s "$source_path" "$destination"
+}
+
+install_link "$repo_dir/ghostty" "$HOME/.config/ghostty"
+
+if [ "$backup_created" = true ]; then
+  log "Backup directory: $backup_dir"
+fi
