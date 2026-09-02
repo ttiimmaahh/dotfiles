@@ -54,3 +54,9 @@ Place a `.ghostty-theme` file in a project directory (or one of its parents), us
 ## Privacy
 
 This repository is intended to remain public. Do not commit secrets, credentials, machine-specific identifiers, private hostnames, personal email addresses, or absolute home-directory paths. Put local-only data in files matching `*.local`, `*.private`, or `*.secret`; these are ignored by Git.
+
+Pushes to `main` and pull requests run Gitleaks against Git history plus repository-specific PII checks. Run the latter locally with:
+
+```sh
+./scripts/check-public-safety.sh
+```
