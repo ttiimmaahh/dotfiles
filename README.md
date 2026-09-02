@@ -7,6 +7,7 @@ Public, portable configuration files.
 - [Ghostty](https://ghostty.org/) configuration
 - Optional Ghostty macropad key mappings
 - Optional per-project Ghostty themes for Zsh
+- [Neovim](https://neovim.io/) configuration managed with lazy.nvim
 
 ## Install
 
@@ -21,6 +22,8 @@ To preview changes without modifying your system:
 ```sh
 ./apply --dry-run
 ```
+
+The first Neovim launch bootstraps [lazy.nvim](https://github.com/folke/lazy.nvim), which then installs the plugins pinned in `nvim/lazy-lock.json`. External formatters, linters, and language servers are installed through Mason where configured.
 
 The Ghostty project-theme helper is installed but not automatically sourced. To enable it, add this to your Zsh configuration:
 

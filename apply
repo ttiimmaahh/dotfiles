@@ -68,6 +68,7 @@ install_link() {
 }
 
 install_link "$repo_dir/ghostty" "$HOME/.config/ghostty"
+install_link "$repo_dir/nvim" "$HOME/.config/nvim"
 
 if [ "$backup_created" = true ]; then
   log "Backup directory: $backup_dir"
