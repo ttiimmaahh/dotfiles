@@ -1,0 +1,8 @@
+onboarding = false
+
+[ui.sidebar.spaces]
+row_gap = 1
+
+[theme]
+name = "tokyo-night"
+auto_switch = false

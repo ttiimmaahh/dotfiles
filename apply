@@ -69,6 +69,7 @@ install_link() {
 
 install_link "$repo_dir/ghostty" "$HOME/.config/ghostty"
 install_link "$repo_dir/nvim" "$HOME/.config/nvim"
+install_link "$repo_dir/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
 if [ "$backup_created" = true ]; then
   log "Backup directory: $backup_dir"
