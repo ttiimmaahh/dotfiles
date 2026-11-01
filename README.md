@@ -60,6 +60,7 @@ Personal customizations for the [Herdr](https://herdr.dev/) desktop app live in 
 - `mods/my-palette`: Herdr's command palette plus a "New agent: <name>" entry for each installed agent (Claude Code, Pi, Codex, ...). Pick one to start it as a new tab in the current space.
 - `mods/my-status` and `layouts/my-main.json`: the default layout, with a status bar hint that shows and opens `my-palette`.
 - `mods/my-spaces` and `mods/my-agents`: Herdr's spaces and agents sidebar lists with taller, touch-friendly rows.
+- `mods/my-tabs`: Herdr's tab bar with larger, touch-friendly tabs and buttons (`my-main` makes its bar 56px tall).
 - `keys/<platform>.json`: the keymap, with the palette key (`ctrl-shift-p` on Linux) opening `my-palette`.
 - `settings.json`: zoom, sounds and other personal settings.
 

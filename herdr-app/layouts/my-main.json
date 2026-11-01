@@ -79,10 +79,10 @@
           "id": "tabs",
           "type": "block",
           "content": {
-            "mod": "tabs"
+            "mod": "my-tabs"
           },
           "size": {
-            "px": 42
+            "px": 56
           },
           "window_drag": true
         },
