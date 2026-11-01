@@ -18,7 +18,7 @@ Public, portable configuration files.
 ./apply
 ```
 
-The script creates symlinks in `~/.config`. Existing files are never overwritten: conflicting paths are backed up under `~/.dotfiles-backup/<timestamp>/` first.
+The script creates symlinks in `~/.config`. For the Herdr app, see [Herdr app](#herdr-app). Existing files are never overwritten: conflicting paths are backed up under `~/.dotfiles-backup/<timestamp>/` first.
 
 To preview changes without modifying your system:
 
@@ -38,19 +38,6 @@ Powerlevel10k is the only prompt dependency. Its compact configuration preserves
 
 Put credentials, employer-specific aliases, and machine-only paths in `~/.zshrc.local`. The public `.zshrc` loads that file when present, while Git ignores it.
 
-### Herdr app
-
-Only personal files from Herdr's folder (`~/.config/herdr-app`, or `$HERDR_APP_HOME`) live in `herdr-app/`: the keymap, `settings.json`, and anything under `mods/`, `layouts/` and `themes/`. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state) and stays out of the repo. Each personal file or mod folder is linked individually, so new mods, layouts and themes added here are picked up on the next run. Herdr writes through the symlinks (for example, zoom changes land in `herdr-app/settings.json`).
-
-Herdr's default keys differ per platform (macOS uses cmd where Linux uses ctrl), so the keymap is per platform: `herdr-app/keys/<linux|macos|windows>.json`. On a platform without one yet, start Herdr once, then apply: it adopts the keymap Herdr wrote there, rebinds its palette key to `my-palette`, and links it. Commit the new file. Key changes made later on one platform don't carry over to the others; copy them across by hand.
-
-- Linux and macOS: `./apply` (everything) or `./apply --herdr-app-only`.
-- Windows: `powershell -ExecutionPolicy Bypass -File .\apply.ps1` (Herdr app files only; needs Developer Mode or an elevated shell for symbolic links).
-
-`mods/my-palette` is a copy of Herdr's command palette with a "New agent: <name>" entry for each installed agent; each platform's keymap binds the palette key (`ctrl-shift-p` on Linux) to it.
-
-`layouts/my-main.json` is a clone of Herdr's default layout whose status bar uses `mods/my-status` (a clone of `workspace-status`), so the bar's hint shows and opens `my-palette`. Being a clone, it doesn't receive Herdr's updates to `main`. The shown layout is per machine: after applying on a new machine, switch to it once with `herdr-app do layout.switch --name my-main` (or `ctrl-shift-l`).
-
 ### Neovim
 
 The first Neovim launch bootstraps [lazy.nvim](https://github.com/folke/lazy.nvim), which then installs the plugins pinned in `nvim/lazy-lock.json`. External formatters, linters, and language servers are installed through Mason where configured.
@@ -64,6 +51,40 @@ source ~/.config/ghostty/project-themes.zsh
 ```
 
 Place a `.ghostty-theme` file in a project directory (or one of its parents), using a preset from `~/.config/ghostty/theme-presets` as a starting point.
+
+## Herdr app
+
+Personal customizations for the [Herdr](https://herdr.dev/) desktop app live in `herdr-app/`:
+
+- `mods/my-palette`: Herdr's command palette plus a "New agent: <name>" entry for each installed agent (Claude Code, Pi, Codex, ...). Pick one to start it as a new tab in the current space.
+- `mods/my-status` and `layouts/my-main.json`: the default layout, with a status bar hint that shows and opens `my-palette`.
+- `keys/<platform>.json`: the keymap, with the palette key (`ctrl-shift-p` on Linux) opening `my-palette`.
+- `settings.json`: zoom, sounds and other personal settings.
+
+### Set up a new machine
+
+1. Install Herdr and start it once, so it creates its folder (`~/.config/herdr-app`) and writes its default keymap for this platform.
+2. Link the files:
+   - Linux and macOS: `./apply --herdr-app-only` (or `./apply` for every dotfile).
+   - Windows: `powershell -ExecutionPolicy Bypass -File .\apply.ps1`. It needs Developer Mode (Settings > System > For developers) or an elevated shell to create symbolic links.
+3. Switch to the layout once; Herdr remembers the shown layout per machine:
+
+   ```sh
+   herdr-app do layout.switch --name my-main
+   ```
+
+   Or press `ctrl-shift-l` until the status bar shows the palette key.
+4. If this is the first machine of its platform (no `herdr-app/keys/<platform>.json` yet), apply adopted Herdr's keymap into the repo with the palette key pointed at `my-palette`. Commit and push the new file.
+
+Check it worked: the palette key opens the palette with "New agent" entries, and `herdr-app status` lists no errors.
+
+### How it works
+
+Only personal files from Herdr's folder (`~/.config/herdr-app`, or `$HERDR_APP_HOME`) are in the repo. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state). Apply links each personal file or mod folder individually, so new mods, layouts and themes added under `herdr-app/` are picked up on the next run. Herdr writes through the symlinks: zoom changes, for example, land in `herdr-app/settings.json`.
+
+Herdr's default keys differ per platform (macOS uses cmd where Linux uses ctrl), so each platform has its own keymap. Key changes made on one platform don't carry over to the others; copy them across by hand.
+
+`my-main` and `my-status` are clones of Herdr's `main` layout and `workspace-status` mod, so they don't receive Herdr's updates to those. `herdr-app do layout.switch --name main` goes back to Herdr's layout.
 
 ## Privacy
 
