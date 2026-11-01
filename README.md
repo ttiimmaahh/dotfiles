@@ -9,6 +9,7 @@ Public, portable configuration files.
 - Optional per-project Ghostty themes for Zsh
 - [Neovim](https://neovim.io/) configuration managed with lazy.nvim
 - [Herdr](https://herdr.dev/) UI and theme configuration
+- Herdr app keys, settings and personal mods (a command palette that starts agents)
 - Portable Zsh configuration and a compact Powerlevel10k prompt
 
 ## Install
@@ -36,6 +37,12 @@ brew install powerlevel10k zsh-autosuggestions zsh-syntax-highlighting eza
 Powerlevel10k is the only prompt dependency. Its compact configuration preserves the rainbow-style directory, Git status, execution-time, runtime-version, and clock segments. A Nerd Font is required for prompt icons; the Ghostty configuration already selects `MesloLGS Nerd Font Mono`.
 
 Put credentials, employer-specific aliases, and machine-only paths in `~/.zshrc.local`. The public `.zshrc` loads that file when present, while Git ignores it.
+
+### Herdr app
+
+Only personal files from `~/.config/herdr-app` live in `herdr-app/`: `keys.json`, `settings.json`, and anything under `mods/`, `layouts/` and `themes/`. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state) and stays out of the repo. `./apply` links each personal file or mod folder individually, so new mods, layouts and themes added here are picked up on the next run. Herdr writes through the symlinks (for example, zoom changes land in `herdr-app/settings.json`).
+
+`mods/my-palette` is a copy of Herdr's command palette with a "New agent: <name>" entry for each installed agent; `keys.json` binds `ctrl-shift-p` to it.
 
 ### Neovim
 

@@ -70,6 +70,23 @@ install_link() {
 install_link "$repo_dir/ghostty" "$HOME/.config/ghostty"
 install_link "$repo_dir/nvim" "$HOME/.config/nvim"
 install_link "$repo_dir/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+
+# Herdr app: only personal files. The rest of ~/.config/herdr-app is written
+# by Herdr (shipped mods/layouts, type files, state), so link item by item.
+herdr_app="$HOME/.config/herdr-app"
+install_link "$repo_dir/herdr-app/keys.json" "$herdr_app/keys.json"
+install_link "$repo_dir/herdr-app/settings.json" "$herdr_app/settings.json"
+for dir in layouts themes; do
+  for path in "$repo_dir/herdr-app/$dir"/*.json "$repo_dir/herdr-app/$dir"/*.svg; do
+    [ -e "$path" ] && install_link "$path" "$herdr_app/$dir/$(basename -- "$path")"
+  done
+done
+for path in "$repo_dir/herdr-app/mods"/*/; do
+  [ -d "$path" ] || continue
+  path=${path%/}
+  install_link "$path" "$herdr_app/mods/$(basename -- "$path")"
+done
+
 install_link "$repo_dir/zsh/.zshrc" "$HOME/.zshrc"
 install_link "$repo_dir/zsh/.zprofile" "$HOME/.zprofile"
 install_link "$repo_dir/zsh/.zshenv" "$HOME/.zshenv"
