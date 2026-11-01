@@ -35,6 +35,8 @@ Done when: you have read all of this session's `AGENTS.md`.
 - `ls -la` the home folder and its `layouts/`, `mods/` and `themes/` folders.
 - `herdr-app commands` when the change involves a command or key.
 - Read every file you might edit.
+- For a visible change, run `herdr-app shot <temp dir>/before.png`. Step 5
+  compares against it.
 
 Sort every file you might touch into one of these groups:
 
@@ -48,6 +50,8 @@ Sort every file you might touch into one of these groups:
   `programs.json`, clones, and the user's own layouts, themes and mods.
 - **Linked**: personal files that are symlinks, usually into a dotfiles repo.
   Edit the link's resolved target (`realpath`) so that the link stays a link.
+  Herdr notices changes to the link, not to its target, so after each edit,
+  run `touch -h <link>` on Linux and macOS, or recreate the link on Windows.
   Create new files beside the existing targets in that repo, following its
   folder layout. Then link them into the home folder the same way the others
   are: if the repo has an install script, read its usage or README and run it.
@@ -101,9 +105,11 @@ The change is **green** when all of these hold:
 - `herdr-app status` shows no errors beyond the baseline.
 - Every mod you created or changed passes `herdr-app check <mod folder>`.
 - The change is on screen. Switch to the affected layout if it isn't shown,
-  then run `herdr-app shot <temp dir>/herdr-shot.png`. If you can view images,
-  look at the shot and confirm it shows what the user asked for. Otherwise, give
-  the user the shot's path.
+  then run `herdr-app shot <temp dir>/after.png`. If you can view images,
+  compare it with the before shot and confirm it shows what the user asked
+  for. For changes of a few pixels, compare pixel values (for example with
+  ImageMagick) rather than judging by eye. If you can't view images, give the
+  user both paths.
 - For a key, the binding sits in the section that wins for the context the
   user wants (see AGENTS.md's Keys section). You can't press keys, so tell the
   user what to press to try it.

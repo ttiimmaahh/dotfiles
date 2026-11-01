@@ -87,7 +87,7 @@ Check it worked: the palette key opens the palette with "New agent" entries, and
 
 ### How it works
 
-Only personal files from Herdr's folder (`~/.config/herdr-app`, or `$HERDR_APP_HOME`) are in the repo. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state). Apply links each personal file or mod folder individually, so new mods, layouts and themes added under `herdr-app/` are picked up on the next run. Herdr writes through the symlinks: zoom changes, for example, land in `herdr-app/settings.json`.
+Only personal files from Herdr's folder (`~/.config/herdr-app`, or `$HERDR_APP_HOME`) are in the repo. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state). Apply links each personal file or mod folder individually, so new mods, layouts and themes added under `herdr-app/` are picked up on the next run. Herdr writes through the symlinks: zoom changes, for example, land in `herdr-app/settings.json`. It doesn't notice edits made to the files in the repo, though: after editing one, run `touch -h` on its link in Herdr's folder to make Herdr reload it.
 
 Herdr's default keys differ per platform (macOS uses cmd where Linux uses ctrl), so each platform has its own keymap. Key changes made on one platform don't carry over to the others; copy them across by hand.
 
