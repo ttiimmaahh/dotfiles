@@ -1,6 +1,6 @@
-// my-agents: Herdr's agents mod with taller, touch-friendly rows (44px agents,
+// ttiimmaahh-agents: Herdr's agents mod with taller, touch-friendly rows (44px agents,
 // 40px sub-agents and rail rows), a 2px gap between rows, and bigger hit areas
-// for the fold chevron, sort button and sort menu. Matches my-spaces.
+// for the fold chevron, sort button and sort menu. Matches ttiimmaahh-spaces.
 //
 // Agents in grouped or priority views; parents take their most urgent sub-agent's place.
 // A viewed done agent stays in Done until left.
@@ -427,7 +427,7 @@ export default class Agents extends View {
                 .text_size(11)
                 .text_color(t.dim)
                 .hover((s) => s.bg(t.hover).text_color(t.foreground))
-                .on_click(() => openOverlay({ mod: "my-agents", kind: "popup", width: 200, height: 140, props: { sortMenu: true } }))
+                .on_click(() => openOverlay({ mod: "ttiimmaahh-agents", kind: "popup", width: 200, height: 140, props: { sortMenu: true } }))
                 .tooltip(`Sort agents: ${sort.label}`)
                 .child(svg(`mods/workspace-chrome/${sort.icon}.svg`).size(14)),
             ),

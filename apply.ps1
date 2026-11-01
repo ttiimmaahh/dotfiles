@@ -57,7 +57,7 @@ function Install-Link([string]$Source, [string]$Destination) {
 
 # Default keymaps differ per platform, so Windows has its own
 # keys\windows.json. Without one yet, adopt the keymap Herdr wrote here,
-# pointing its palette key at my-palette.
+# pointing its palette key at ttiimmaahh-palette.
 $keys = Join-Path $repo 'herdr-app\keys\windows.json'
 $liveKeys = Join-Path $herdrApp 'keys.json'
 if (-not (Test-Path $keys)) {
@@ -66,7 +66,7 @@ if (-not (Test-Path $keys)) {
     Write-Host "Adopting this machine's Herdr keymap as herdr-app\keys\windows.json (commit it)"
     if (-not $DryRun) {
       $text = [IO.File]::ReadAllText($liveKeys)
-      [IO.File]::WriteAllText($keys, $text.Replace('"app.palette"', '"mod.open:my-palette"'))
+      [IO.File]::WriteAllText($keys, $text.Replace('"app.palette"', '"mod.open:ttiimmaahh-palette"'))
     }
   } else {
     Write-Host "Skipping Herdr keys: start Herdr once so it writes its Windows keymap, then run this again"
@@ -91,6 +91,34 @@ $mods = Join-Path $repo 'herdr-app\mods'
 if (Test-Path $mods) {
   Get-ChildItem -LiteralPath $mods -Directory | ForEach-Object {
     Install-Link $_.FullName (Join-Path $herdrApp "mods\$($_.Name)")
+  }
+}
+
+# Links left behind by files renamed or removed in the repo.
+foreach ($dir in 'layouts', 'themes', 'mods') {
+  Get-ChildItem -LiteralPath (Join-Path $herdrApp $dir) -Force -ErrorAction SilentlyContinue |
+    Where-Object { $_.LinkType -eq 'SymbolicLink' -and -not (Test-Path -LiteralPath $_.FullName) -and
+                   ([string]$_.Target).StartsWith((Join-Path $repo 'herdr-app\'), 'OrdinalIgnoreCase') } |
+    ForEach-Object {
+      Write-Host "Removing stale link: $($_.FullName)"
+      if (-not $DryRun) { $_.Delete() }
+    }
+}
+
+# Herdr remembers the shown layout per machine. Switch to the personal one
+# only from Herdr's default (or this layout's old name), so a layout picked
+# on purpose is left alone.
+$herdrLayout = 'ttiimmaahh'
+if (Get-Command herdr-app -ErrorAction SilentlyContinue) {
+  $shown = $null
+  try { $shown = (herdr-app status 2>$null | Out-String | ConvertFrom-Json).layout } catch {}
+  if (-not $shown) {
+    Write-Host "Herdr isn't running: start it and run this again to switch to the $herdrLayout layout"
+  } elseif ($shown -in 'main', 'my-main') {
+    Write-Host "Switching Herdr to the $herdrLayout layout"
+    if (-not $DryRun) { herdr-app do layout.switch --name $herdrLayout | Out-Null }
+  } elseif ($shown -ne $herdrLayout) {
+    Write-Host "Herdr shows the $shown layout; leaving it. To switch: herdr-app do layout.switch --name $herdrLayout"
   }
 }
 

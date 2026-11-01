@@ -1,4 +1,4 @@
-// my-spaces: Herdr's spaces mod with taller, touch-friendly rows (44px, 40px
+// ttiimmaahh-spaces: Herdr's spaces mod with taller, touch-friendly rows (44px, 40px
 // for worktrees and other rows), bigger avatars and a 2px gap between rows.
 //
 // Workspace spaces: stable colored avatars, worktrees under their checkout,

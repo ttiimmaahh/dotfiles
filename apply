@@ -31,6 +31,7 @@ done
 repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 backup_dir="${HOME}/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)-$$"
 backup_created=false
+herdr_layout=ttiimmaahh
 
 log() {
   printf '%s\n' "$*"
@@ -52,6 +53,11 @@ install_link() {
 
   if [ -L "$destination" ] && [ "$(readlink "$destination")" = "$source_path" ]; then
     log "Already linked: $destination"
+    # Herdr reloads a file only when the link in its folder changes, not the
+    # target, so touch the link to pick up repo changes (after a pull, say).
+    if [ "$dry_run" = false ]; then
+      touch -h "$destination"
+    fi
     return
   fi
 
@@ -87,15 +93,15 @@ install_herdr_app() {
 
   # Default keymaps differ per platform (ctrl on Linux, cmd on macOS), so each
   # platform has its own keys/<platform>.json. On a platform without one yet,
-  # adopt the keymap Herdr wrote there, pointing its palette key at my-palette.
+  # adopt the keymap Herdr wrote there, pointing its palette key at ttiimmaahh-palette.
   keys="$repo_dir/herdr-app/keys/$platform.json"
   if [ ! -e "$keys" ]; then
     if [ -f "$herdr_app/keys.json" ] && [ ! -L "$herdr_app/keys.json" ]; then
       log "Adopting this machine's Herdr keymap as herdr-app/keys/$platform.json (commit it)"
       if [ "$dry_run" = true ]; then
-        log "[dry-run] rebind app.palette to mod.open:my-palette into $keys"
+        log "[dry-run] rebind app.palette to mod.open:ttiimmaahh-palette into $keys"
       else
-        sed 's/"app\.palette"/"mod.open:my-palette"/' "$herdr_app/keys.json" > "$keys"
+        sed 's/"app\.palette"/"mod.open:ttiimmaahh-palette"/' "$herdr_app/keys.json" > "$keys"
       fi
     else
       log "Skipping Herdr keys: start Herdr once so it writes its $platform keymap, then run ./apply again"
@@ -119,6 +125,47 @@ install_herdr_app() {
       install_link "$path" "$herdr_app/mods/$(basename -- "$path")"
     fi
   done
+
+  # Links left behind by files renamed or removed in the repo.
+  for link in "$herdr_app"/layouts/* "$herdr_app"/themes/* "$herdr_app"/mods/*; do
+    if [ -L "$link" ] && [ ! -e "$link" ]; then
+      case "$(readlink "$link")" in
+        "$repo_dir/herdr-app/"*)
+          log "Removing stale link: $link"
+          run rm "$link"
+          ;;
+      esac
+    fi
+  done
+
+  switch_herdr_layout
+}
+
+# Herdr remembers the shown layout per machine. Switch to the personal one
+# only from Herdr's default (or this layout's old name), so a layout picked
+# on purpose is left alone.
+switch_herdr_layout() {
+  if ! command -v herdr-app >/dev/null 2>&1; then
+    return
+  fi
+  shown=$(herdr-app status 2>/dev/null | sed -n 's/^ *"layout": *"\([^"]*\)".*/\1/p')
+  case "$shown" in
+    "$herdr_layout") ;;
+    "")
+      log "Herdr isn't running: start it and run ./apply again to switch to the $herdr_layout layout"
+      ;;
+    main|my-main)
+      log "Switching Herdr to the $herdr_layout layout"
+      if [ "$dry_run" = true ]; then
+        log "[dry-run] herdr-app do layout.switch --name $herdr_layout"
+      else
+        herdr-app do layout.switch --name "$herdr_layout" >/dev/null
+      fi
+      ;;
+    *)
+      log "Herdr shows the $shown layout; leaving it. To switch: herdr-app do layout.switch --name $herdr_layout"
+      ;;
+  esac
 }
 
 # Agent skills: ~/.agents/skills is read by Codex, pi and other agents;

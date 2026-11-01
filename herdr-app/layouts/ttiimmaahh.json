@@ -29,7 +29,7 @@
               "id": "spaces",
               "type": "block",
               "content": {
-                "mod": "my-spaces"
+                "mod": "ttiimmaahh-spaces"
               },
               "size": {
                 "weight": 1
@@ -40,7 +40,7 @@
               "id": "agents",
               "type": "block",
               "content": {
-                "mod": "my-agents"
+                "mod": "ttiimmaahh-agents"
               },
               "size": {
                 "weight": 1
@@ -79,7 +79,7 @@
           "id": "tabs",
           "type": "block",
           "content": {
-            "mod": "my-tabs"
+            "mod": "ttiimmaahh-tabs"
           },
           "size": {
             "px": 56
@@ -160,7 +160,7 @@
           "id": "status",
           "type": "block",
           "content": {
-            "mod": "my-status"
+            "mod": "ttiimmaahh-status"
           },
           "size": {
             "px": 28
