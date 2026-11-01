@@ -49,6 +49,8 @@ Herdr's default keys differ per platform (macOS uses cmd where Linux uses ctrl),
 
 `mods/my-palette` is a copy of Herdr's command palette with a "New agent: <name>" entry for each installed agent; each platform's keymap binds the palette key (`ctrl-shift-p` on Linux) to it.
 
+`layouts/my-main.json` is a clone of Herdr's default layout whose status bar uses `mods/my-status` (a clone of `workspace-status`), so the bar's hint shows and opens `my-palette`. Being a clone, it doesn't receive Herdr's updates to `main`. The shown layout is per machine: after applying on a new machine, switch to it once with `herdr-app do layout.switch --name my-main` (or `ctrl-shift-l`).
+
 ### Neovim
 
 The first Neovim launch bootstraps [lazy.nvim](https://github.com/folke/lazy.nvim), which then installs the plugins pinned in `nvim/lazy-lock.json`. External formatters, linters, and language servers are installed through Mason where configured.
