@@ -10,6 +10,7 @@ Public, portable configuration files.
 - [Neovim](https://neovim.io/) configuration managed with lazy.nvim
 - [Herdr](https://herdr.dev/) UI and theme configuration
 - Herdr app keys, settings and personal mods (a command palette that starts agents)
+- `customize-herdr`, an agent skill that customizes the Herdr app from a plain request
 - Portable Zsh configuration and a compact Powerlevel10k prompt
 
 ## Install
@@ -60,6 +61,12 @@ Personal customizations for the [Herdr](https://herdr.dev/) desktop app live in 
 - `mods/my-status` and `layouts/my-main.json`: the default layout, with a status bar hint that shows and opens `my-palette`.
 - `keys/<platform>.json`: the keymap, with the palette key (`ctrl-shift-p` on Linux) opening `my-palette`.
 - `settings.json`: zoom, sounds and other personal settings.
+
+### Customize it with an agent
+
+`agents/skills/customize-herdr` is an [Agent Skill](https://agentskills.io) that takes a request ("move the agents list to the right", "bind alt-p to the palette", "a sidebar of my PRs") and carries it through: it reads Herdr's own `AGENTS.md`, picks the smallest file to change, cloning shipped layouts and mods when it has to, verifies with `herdr-app status`, `herdr-app check` and a screenshot, then reports. New files go into this repo when Herdr's folder links here. Agents also reach it on their own when asked to change Herdr.
+
+Apply links it into `~/.agents/skills` (Codex, pi and other agents) and `~/.claude/skills` (Claude Code), including with `--herdr-app-only` and on Windows. Invoke it by name, for example `/customize-herdr make the tab bar taller` in Claude Code or `$customize-herdr ...` in Codex.
 
 ### Set up a new machine
 

@@ -10,9 +10,10 @@ Install this repository's dotfiles as symlinks. Existing destinations are
 moved to ~/.dotfiles-backup/<timestamp-pid>/ before installation.
 
   --dry-run         show what would change without changing anything
-  --herdr-app-only  install only the Herdr app files (herdr-app/)
+  --herdr-app-only  install only the Herdr app files (herdr-app/) and the
+                    agent skills (agents/skills/)
 
-On Windows, use apply.ps1 (Herdr app files only).
+On Windows, use apply.ps1 (Herdr app files and agent skills only).
 EOF
 }
 
@@ -120,6 +121,19 @@ install_herdr_app() {
   done
 }
 
+# Agent skills: ~/.agents/skills is read by Codex, pi and other agents;
+# Claude Code reads ~/.claude/skills.
+install_agent_skills() {
+  for path in "$repo_dir/agents/skills"/*/; do
+    if [ -d "$path" ]; then
+      path=${path%/}
+      name=$(basename -- "$path")
+      install_link "$path" "$HOME/.agents/skills/$name"
+      install_link "$path" "$HOME/.claude/skills/$name"
+    fi
+  done
+}
+
 if [ "$herdr_app_only" = false ]; then
   install_link "$repo_dir/ghostty" "$HOME/.config/ghostty"
   install_link "$repo_dir/nvim" "$HOME/.config/nvim"
@@ -130,6 +144,7 @@ if [ "$herdr_app_only" = false ]; then
   install_link "$repo_dir/zsh/p10k.zsh" "$HOME/.config/zsh/p10k.zsh"
 fi
 install_herdr_app
+install_agent_skills
 
 if [ "$backup_created" = true ]; then
   log "Backup directory: $backup_dir"

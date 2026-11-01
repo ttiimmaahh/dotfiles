@@ -1,5 +1,6 @@
-# Windows installer for the Herdr app files (herdr-app/). The other configs in
-# this repository are for Linux and macOS; use ./apply there.
+# Windows installer for the Herdr app files (herdr-app/) and agent skills
+# (agents/skills/). The other configs in this repository are for Linux and
+# macOS; use ./apply there.
 #
 #   powershell -ExecutionPolicy Bypass -File .\apply.ps1 [-DryRun]
 #
@@ -90,6 +91,16 @@ $mods = Join-Path $repo 'herdr-app\mods'
 if (Test-Path $mods) {
   Get-ChildItem -LiteralPath $mods -Directory | ForEach-Object {
     Install-Link $_.FullName (Join-Path $herdrApp "mods\$($_.Name)")
+  }
+}
+
+# Agent skills: ~\.agents\skills is read by Codex, pi and other agents;
+# Claude Code reads ~\.claude\skills.
+$skills = Join-Path $repo 'agents\skills'
+if (Test-Path $skills) {
+  Get-ChildItem -LiteralPath $skills -Directory | ForEach-Object {
+    Install-Link $_.FullName (Join-Path $HOME ".agents\skills\$($_.Name)")
+    Install-Link $_.FullName (Join-Path $HOME ".claude\skills\$($_.Name)")
   }
 }
 
