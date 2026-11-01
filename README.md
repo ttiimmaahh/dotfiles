@@ -40,9 +40,14 @@ Put credentials, employer-specific aliases, and machine-only paths in `~/.zshrc.
 
 ### Herdr app
 
-Only personal files from `~/.config/herdr-app` live in `herdr-app/`: `keys.json`, `settings.json`, and anything under `mods/`, `layouts/` and `themes/`. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state) and stays out of the repo. `./apply` links each personal file or mod folder individually, so new mods, layouts and themes added here are picked up on the next run. Herdr writes through the symlinks (for example, zoom changes land in `herdr-app/settings.json`).
+Only personal files from Herdr's folder (`~/.config/herdr-app`, or `$HERDR_APP_HOME`) live in `herdr-app/`: the keymap, `settings.json`, and anything under `mods/`, `layouts/` and `themes/`. Everything else there is written by Herdr itself (shipped mods and layouts, type files, state) and stays out of the repo. Each personal file or mod folder is linked individually, so new mods, layouts and themes added here are picked up on the next run. Herdr writes through the symlinks (for example, zoom changes land in `herdr-app/settings.json`).
 
-`mods/my-palette` is a copy of Herdr's command palette with a "New agent: <name>" entry for each installed agent; `keys.json` binds `ctrl-shift-p` to it.
+Herdr's default keys differ per platform (macOS uses cmd where Linux uses ctrl), so the keymap is per platform: `herdr-app/keys/<linux|macos|windows>.json`. On a platform without one yet, start Herdr once, then apply: it adopts the keymap Herdr wrote there, rebinds its palette key to `my-palette`, and links it. Commit the new file. Key changes made later on one platform don't carry over to the others; copy them across by hand.
+
+- Linux and macOS: `./apply` (everything) or `./apply --herdr-app-only`.
+- Windows: `powershell -ExecutionPolicy Bypass -File .\apply.ps1` (Herdr app files only; needs Developer Mode or an elevated shell for symbolic links).
+
+`mods/my-palette` is a copy of Herdr's command palette with a "New agent: <name>" entry for each installed agent; each platform's keymap binds the palette key (`ctrl-shift-p` on Linux) to it.
 
 ### Neovim
 
