@@ -17,7 +17,7 @@
             "mod": "workspace-chrome"
           },
           "size": {
-            "px": 46
+            "px": 56
           },
           "window_drag": true
         },
